@@ -1,8 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// Import your ProfileScreen component
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from "@expo/vector-icons";
 import Home from "../screen/Home";
+import Dashboard from "../screen/Dashboard";
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigation = () => {
@@ -12,7 +13,7 @@ const TabNavigation = () => {
         name="Home"
         component={Home}
         options={{
-               headerShown: false ,
+          headerShown: false,
           tabBarIcon: ({ focused, color, size }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
@@ -22,7 +23,20 @@ const TabNavigation = () => {
           ),
         }}
       />
-      {/* Add more tab screens as needed */}
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? "ios-analytics" : "ios-analytics-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
