@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -16,19 +16,19 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const scaleValue = new Animated.Value(1);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleLoginPress = () => {
-    Animated.sequence([
-      Animated.timing(scaleValue, {
-        toValue: 0.95,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleValue, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start();
+    // Input validation logic here (e.g., check if fields are not empty)
+    if (!email || !password) {
+      // Display an error message or perform desired action
+      alert("Please fill all fields");
+      return;
+    }
+
+    // Navigate to the home screen upon successful login
+    navigation.navigate("Home");
   };
 
   return (
@@ -53,15 +53,17 @@ export default function LoginScreen() {
           <Text style={styles.label}>Email Address</Text>
           <TextInput
             style={styles.input}
-            value="john@gmail.com"
+            value={email}
             placeholder="Enter Email"
+            onChangeText={setEmail}
           />
           <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
             secureTextEntry
-            value="test12345"
+            value={password}
             placeholder="Enter Password"
+            onChangeText={setPassword}
           />
           <Animated.View
             style={[
@@ -103,7 +105,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",

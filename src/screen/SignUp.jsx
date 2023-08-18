@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -16,7 +16,21 @@ export default function SignUpScreen() {
   const navigation = useNavigation();
   const scaleValue = new Animated.Value(1);
 
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleSignUpPress = () => {
+    // Input validation logic here (e.g., check if fields are not empty)
+    if (!fullName || !email || !password) {
+      // Display an error message or perform desired action
+      alert("Please fill all fields");
+
+      return;
+    }
+
+    navigation.navigate("Welcome");
+
     Animated.sequence([
       Animated.timing(scaleValue, {
         toValue: 0.95,
@@ -55,21 +69,25 @@ export default function SignUpScreen() {
           <Text style={styles.label}>Full Name</Text>
           <TextInput
             style={styles.input}
-            value="john snow"
+            value={fullName}
             placeholder="Enter Name"
+            onChangeText={setFullName}
           />
           <Text style={styles.label}>Email Address</Text>
           <TextInput
+            keyboardType={"email-address"}
             style={styles.input}
-            value="john@gmail.com"
+            value={email}
             placeholder="Enter Email"
+            onChangeText={setEmail}
           />
           <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
             secureTextEntry
-            value="test12345"
+            value={password}
             placeholder="Enter Password"
+            onChangeText={setPassword}
           />
           <Animated.View
             style={[
@@ -111,7 +129,7 @@ export default function SignUpScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",
@@ -121,13 +139,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   backButtonContainer: {
-    backgroundColor: "rgb(43 65 214)",
+    position: "absolute",
+    top: 20,
+    left: 10,
+    zIndex: 1,
+
     padding: 10,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
   },
   backButton: {
-    paddingHorizontal: 4,
+    paddingHorizontal: 7,
   },
   imageContainer: {
     flex: 1,
