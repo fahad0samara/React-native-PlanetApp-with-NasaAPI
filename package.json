@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^18.1.2",
+    "@react-native-picker/picker": "^2.5.0",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@types/react": "~18.2.14",
+    "axios": "^1.4.0",
     "expo": "~49.0.7",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
