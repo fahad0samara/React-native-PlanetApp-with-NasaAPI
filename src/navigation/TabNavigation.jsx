@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "../screen/Home";
 import Dashboard from "../screen/Dashboard";
+import Card from "../screen/Card";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,12 +26,12 @@ const TabNavigation = () => {
       />
       <Tab.Screen
         name="Dashboard"
-        component={Dashboard}
+        component={Card}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => (
             <Ionicons
-              name={focused ? "ios-analytics" : "ios-analytics-outline"}
+              name={focused ? "card" : "card-outline"}
               size={size}
               color={color}
             />
