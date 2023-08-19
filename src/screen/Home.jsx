@@ -9,76 +9,23 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
-const categories = [
-  { id: 0, name: "All" },
-  { id: 1, name: "Category 1" },
-  { id: 2, name: "Category 2" },
-  // Add more categories as needed
-];
-
-const products = [
-  {
-    id: 0,
-    name: "Product 1",
-    image: require("../image/distinct-mind-Js9auX5_9R8-unsplash.jpg"),
-    price: 29.99,
-    brand: "Brand A",
-  },
-  {
-    id: 1,
-    name: "Product 2",
-    image: require("../image/milad-fakurian-E8Ufcyxz514-unsplash.jpg"),
-    price: 19.99,
-    brand: "Brand B",
-  },
-  // Add more products as needed
-];
+import { categories, featuredBrands, newArrivals, products } from "../data/data";
 
 
-const newArrivals = [
-  {
-    id: 0,
-    name: "New Arrival 1",
-    image: require("../image/milad-fakurian-PjG_SXDkpwQ-unsplash.jpg"),
-    price: 39.99,
-  },
-  {
-    id: 1,
-    name: "New Arrival 2",
-    image: require("../image/neom-I5j46lqAo-o-unsplash.jpg"),
-    price: 49.99,
-  },
-  // Add more new arrivals as needed
-];
 
-const featuredBrands = [
-  {
-    id: 0,
-    name: "Brand X",
-    image: require("../image/vighnesh-dudani-ZQSs0YZUNfA-unsplash.jpg"),
-  },
-  {
-    id: 1,
-    name: "Brand Y",
-    image: require("../image/viktor-forgacs-UE_3Z53UsLc-unsplash.jpg"),
-  },
-  {
-    id: 2,
-    name: "Brand X",
-    image: require("../image/and-machines-vqTWfa4DjEk-unsplash.jpg"),
-  },
-  {
-    id: 3,
-    name: "Brand Y",
-    image: require("../image//distinct-mind-Js9auX5_9R8-unsplash.jpg"),
-  },
-  // Add more featured brands as needed
-];
 
 
 const Home = () => {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
+    const filteredProducts =
+      activeCategoryIndex === 0
+        ? products
+        : products.filter(
+            (product) => product.categoryId === activeCategoryIndex
+          );
+
+          
+
 
   const handleProductPress = () => {
     // Implement product press logic here
@@ -87,14 +34,17 @@ const Home = () => {
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
+        {/* Header */}
         <View style={styles.header}>
+          {/* User Info */}
           <View style={styles.userContainer}>
             <Image
               source={require("../image/4.png")}
               style={styles.userImage}
             />
-            <Text style={styles.username}>Hi, sara</Text>
+            <Text style={styles.username}>Hi, Sara</Text>
           </View>
+          {/* Icon Buttons */}
           <View style={styles.iconContainer}>
             <TouchableOpacity style={styles.iconButton}>
               <Ionicons name="search-outline" size={24} />
@@ -104,12 +54,16 @@ const Home = () => {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* Collections Title */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>
             Explore the best{" "}
             <Text style={styles.collectionText}>Collections</Text> for you
           </Text>
         </View>
+
+        {/* Categories */}
         <View style={styles.section}>
           <Text style={styles.categoryTitle}>Categories</Text>
           <ScrollView horizontal>
@@ -134,6 +88,31 @@ const Home = () => {
             ))}
           </ScrollView>
         </View>
+
+        
+        {/* Featured Brands */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Featured Brands</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.featuredBrandsContainer}
+          >
+            {featuredBrands.map((brand) => (
+              <TouchableOpacity
+                key={brand.id}
+                style={styles.featuredBrandItem}
+                onPress={() => handleFeaturedBrandPress(brand.id)}
+              >
+                <Image style={styles.featuredBrandImage} source={brand.image} />
+                <Text style={styles.featuredBrandName}>{brand.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+
+        {/* Popular Products */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Popular</Text>
@@ -145,10 +124,10 @@ const Home = () => {
             horizontal
             contentContainerStyle={styles.productContainer}
           >
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <TouchableOpacity
                 key={product.id}
-               
+                onPress={() => handleProductPress(product.id)}
                 style={styles.productCard}
               >
                 <Image style={styles.productImage} source={product.image} />
@@ -162,6 +141,8 @@ const Home = () => {
             ))}
           </ScrollView>
         </View>
+
+        {/* New Arrivals */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>New Arrivals</Text>
           <ScrollView
@@ -183,25 +164,6 @@ const Home = () => {
           </ScrollView>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Featured Brands</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.featuredBrandsContainer}
-          >
-            {featuredBrands.map((brand) => (
-              <TouchableOpacity
-                key={brand.id}
-                style={styles.featuredBrandItem}
-               
-              >
-                <Image style={styles.featuredBrandImage} source={brand.image} />
-                <Text style={styles.featuredBrandName}>{brand.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -332,6 +294,7 @@ const styles = StyleSheet.create({
   newArrivalsContainer: {
     flexDirection: "row",
     paddingLeft: 16,
+    marginTop: 16,
   },
   newArrivalItem: {
     marginRight: 16,

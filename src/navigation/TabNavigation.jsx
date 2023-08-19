@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "../screen/Home";
-import Dashboard from "../screen/Dashboard";
+
 import Card from "../screen/Card";
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +25,7 @@ const TabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Dashboard"
+        name="card"
         component={Card}
         options={{
           headerShown: false,

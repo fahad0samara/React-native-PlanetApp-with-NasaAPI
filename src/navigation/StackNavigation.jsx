@@ -17,7 +17,7 @@ export default function StackNavigation() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen
-          name="Home"
+          name="TabNavigation"
           options={{ headerShown: false }}
           component={TabNavigation}
         />

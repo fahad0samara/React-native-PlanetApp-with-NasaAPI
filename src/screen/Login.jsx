@@ -28,7 +28,7 @@ export default function LoginScreen() {
     }
 
     // Navigate to the home screen upon successful login
-    navigation.navigate("Home");
+    navigation.navigate("TabNavigation");
   };
 
   return (
