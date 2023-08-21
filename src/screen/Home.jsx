@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { categories, dailyFacts, latestNews, planets } from "../data/data";
+import NasaAPI from "../compont/NasaAPI";
 
 
 
@@ -107,8 +108,8 @@ const Home = ({ navigation }) => {
                   <Ionicons name="heart-outline" color="white" size={24} />
                 </TouchableOpacity>
                 <Text style={styles.planetName}>{planet.name}</Text>
+                
 
-                {/* Add additional planet details here */}
               </View>
             </TouchableOpacity>
           ))}
@@ -140,6 +141,7 @@ const Home = ({ navigation }) => {
             ))}
           </ScrollView>
         </View>
+        <NasaAPI/>
       </ScrollView>
     </SafeAreaView>
   );
