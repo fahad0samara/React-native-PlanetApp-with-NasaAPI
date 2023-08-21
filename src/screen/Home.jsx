@@ -9,26 +9,22 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { categories, featuredBrands, newArrivals, products } from "../data/data";
+import { categories, dailyFacts, latestNews, planets } from "../data/data";
 
 
 
 
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
-    const filteredProducts =
-      activeCategoryIndex === 0
-        ? products
-        : products.filter(
-            (product) => product.categoryId === activeCategoryIndex
-          );
-
-          
-
+  const filteredplanets =
+    activeCategoryIndex === 0
+      ? planets
+      : planets.filter((product) => product.categoryId === activeCategoryIndex);
 
   const handleProductPress = () => {
     // Implement product press logic here
+   
   };
 
   return (
@@ -89,81 +85,61 @@ const Home = () => {
           </ScrollView>
         </View>
 
-        
-        {/* Featured Brands */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Featured Brands</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.featuredBrandsContainer}
-          >
-            {featuredBrands.map((brand) => (
-              <TouchableOpacity
-                key={brand.id}
-                style={styles.featuredBrandItem}
-                onPress={() => handleFeaturedBrandPress(brand.id)}
-              >
-                <Image style={styles.featuredBrandImage} source={brand.image} />
-                <Text style={styles.featuredBrandName}>{brand.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={250 + 20}
+          decelerationRate="fast"
+          pagingEnabled
+          style={styles.scrollView}
+        >
+          {filteredplanets.map((planet, index) => (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("planet", { planetId: planet.id })
+              }
+              style={styles.planetContainer}
+              key={index}
+            >
+              <Image source={planet.image} style={styles.planetImage} />
+              <View style={styles.planetOverlay}>
+                <TouchableOpacity style={styles.iconButton}>
+                  <Ionicons name="heart-outline" color="white" size={24} />
+                </TouchableOpacity>
+                <Text style={styles.planetName}>{planet.name}</Text>
 
-
-        {/* Popular Products */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Popular</Text>
-            <TouchableOpacity style={styles.viewAllButton}>
-              <Text style={styles.viewAllText}>View All</Text>
+                {/* Add additional planet details here */}
+              </View>
             </TouchableOpacity>
-          </View>
-          <ScrollView
-            horizontal
-            contentContainerStyle={styles.productContainer}
-          >
-            {filteredProducts.map((product) => (
-              <TouchableOpacity
-                key={product.id}
-                onPress={() => handleProductPress(product.id)}
-                style={styles.productCard}
-              >
-                <Image style={styles.productImage} source={product.image} />
-                <Text style={styles.productName}>{product.name}</Text>
-                <View style={styles.productInfo}>
-                  <Text style={styles.productPrice}>$ {product.price}</Text>
-                  <View style={styles.separator} />
-                  <Text style={styles.productBrand}>{product.brand}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+          ))}
+        </ScrollView>
 
-        {/* New Arrivals */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>New Arrivals</Text>
+          <Text style={styles.sectionTitle}>latest News</Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.newArrivalsContainer}
+            contentContainerStyle={styles.latestNewsContainer}
           >
-            {newArrivals.map((item) => (
+            {latestNews.map((item) => (
               <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("latestNews", {
+                    latestNewsId: item.id,
+                  })
+                }
                 key={item.id}
                 style={styles.newArrivalItem}
-                onPress={() => handleNewArrivalPress(item.id)}
               >
                 <Image style={styles.newArrivalImage} source={item.image} />
-                <Text style={styles.newArrivalName}>{item.name}</Text>
-                <Text style={styles.newArrivalPrice}>$ {item.price}</Text>
+                <Text style={styles.newArrivalTitle}>{item.title}</Text>
+                <Text style={styles.newArrivalContent}>
+                  {item.content.substring(0, 80)}...
+                </Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -216,7 +192,6 @@ const styles = StyleSheet.create({
   },
   collectionText: {
     color: "#333",
-   
   },
   categoryTitle: {
     fontSize: 20,
@@ -291,32 +266,31 @@ const styles = StyleSheet.create({
     color: "#777",
   },
 
-  newArrivalsContainer: {
+  latestNewsContainer: {
     flexDirection: "row",
-    paddingLeft: 16,
-    marginTop: 16,
+    paddingVertical: 10,
   },
   newArrivalItem: {
-    marginRight: 16,
+    marginRight: 20,
+    width: 180,
   },
   newArrivalImage: {
-    width: 160,
-    height: 160,
+    width: "100%",
+    height: 120,
     borderRadius: 8,
-    resizeMode: "cover",
   },
-  newArrivalName: {
-    marginTop: 8,
-    fontSize: 14,
+  newArrivalTitle: {
+    fontSize: 16,
     fontWeight: "bold",
+    marginTop: 10,
   },
-  newArrivalPrice: {
-    color: "#777",
+  newArrivalContent: {
     fontSize: 14,
-    marginTop: 4,
+    color: "gray",
+    marginTop: 5,
   },
 
-  featuredBrandsContainer: {
+  dailyFactsContainer: {
     flexDirection: "row",
     paddingHorizontal: 16,
     marginTop: 16,
@@ -336,6 +310,54 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 14,
     fontWeight: "bold",
+  },
+
+  scrollView: {
+    marginVertical: 20,
+  },
+  planetContainer: {
+    width: 270,
+    height: 300,
+    overflow: "hidden",
+    borderRadius: 10,
+    marginRight: 20,
+  },
+  planetImage: {
+    width: "100%",
+    height: "100%",
+  },
+  planetOverlay: {
+    position: "absolute",
+    zIndex: 1,
+    height: "100%",
+    width: "100%",
+
+    justifyContent: "space-between",
+    padding: 10,
+  },
+  iconButton: {
+    alignSelf: "flex-end",
+    padding: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  planetName: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+  planetDescription: {
+    fontSize: 14,
+    color: "white",
+    marginLeft: 10,
+  },
+  planetDetail: {
+    fontSize: 12,
+    color: "white",
+    marginLeft: 10,
   },
 });
 

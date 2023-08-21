@@ -7,6 +7,8 @@ import Welcome from '../screen/Welcome';
 import Login from '../screen/Login';
 import SignUp from '../screen/SignUp';
 import TabNavigation from './TabNavigation';
+import Planet from '../screen/Planet';
+import LatestNewsId from '../screen/LatestNewsId';
 
 
 const Stack = createNativeStackNavigator();
@@ -35,6 +37,16 @@ export default function StackNavigation() {
           name="SignUp"
           options={{ headerShown: false }}
           component={SignUp}
+        />
+        <Stack.Screen
+          name="planet"
+          options={{ headerShown: false }}
+          component={Planet}
+        />
+        <Stack.Screen
+          name="latestNews"
+          options={{ headerShown: false }}
+          component={LatestNewsId}
         />
       </Stack.Navigator>
     </NavigationContainer>
