@@ -1,94 +1,77 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
 
-
-export default function WelcomeScreen() {
-  const navigation = useNavigation();
-
+const WelcomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Let's Get Started!</Text>
-        <View style={styles.imageContainer}>
-          <Image
-            source={require("../image/6.png")}
-            style={styles.image}
-            resizeMode="contain"
-          />
-        </View>
-        <View style={styles.buttonsContainer}>
+    <ImageBackground
+      source={require("../image/welcome.jpg")}
+      style={styles.backgroundImage}
+    >
+      <View style={styles.overlay}>
+        <View style={styles.content}>
+          <Text style={styles.welcomeText}>Welcome to Plant App</Text>
+          <Text style={styles.subText}>
+            Explore a world of plants and greenery
+          </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate("SignUp")}
-            style={styles.buttonSignUp}
+            style={styles.button}
+            onPress={() => navigation.navigate("Home")}
           >
-            <Text style={styles.buttonText}>Sign Up</Text>
+            <Text style={styles.buttonText}>Get Started</Text>
           </TouchableOpacity>
-          <View style={styles.loginContainer}>
-            <Text style={styles.loginText}>Already have an account?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text style={styles.loginLink}>Log In</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundImage: {
+
+
+    width: "100%",
+    height: "100%",
+
+  },
+  overlay: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "flex-end", // Move content to the bottom
   },
   content: {
-    flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginTop: 32,
+    padding: 20,
   },
-  title: {
-    color: "white",
+  welcomeText: {
+    fontSize: 28,
     fontWeight: "bold",
-    fontSize: 32,
+    color: "#fff",
     textAlign: "center",
+    marginBottom: 10,
   },
-  imageContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
+  subText: {
+    fontSize: 18,
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 30,
   },
-  image: {
-    width: 350,
-    height: 450,
-  },
-  buttonsContainer: {
-    marginBottom: 32,
-  },
-  buttonSignUp: {
+  button: {
+    backgroundColor: "#007AFF",
     paddingVertical: 12,
-    backgroundColor: "rgb(43 65 214)",
-    marginHorizontal: 16,
-    borderRadius: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
   },
   buttonText: {
-    fontSize: 20,
+    color: "#fff",
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-    color: "white",
-  },
-  loginContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 16,
-  },
-  loginText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-  loginLink: {
-    fontWeight: "bold",
-    color: "rgb(43 65 214)",
-    marginLeft: 4,
   },
 });
+
+export default WelcomeScreen;
