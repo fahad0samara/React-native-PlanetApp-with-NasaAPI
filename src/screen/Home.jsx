@@ -12,10 +12,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { categories, dailyFacts, latestNews, planets } from "../data/data";
 import NasaAPI from "../compont/NasaAPI";
 
-
-
-
-
 const Home = ({ navigation }) => {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const filteredplanets =
@@ -23,40 +19,19 @@ const Home = ({ navigation }) => {
       ? planets
       : planets.filter((product) => product.categoryId === activeCategoryIndex);
 
-  const handleProductPress = () => {
-    // Implement product press logic here
-   
-  };
-
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          {/* User Info */}
-          <View style={styles.userContainer}>
-            <Image
-              source={require("../image/4.png")}
-              style={styles.userImage}
-            />
-            <Text style={styles.username}>Hi, Sara</Text>
-          </View>
-          {/* Icon Buttons */}
-          <View style={styles.iconContainer}>
-            <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="search-outline" size={24} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="cart-outline" size={24} />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Collections Title */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>
-            Explore the best{" "}
-            <Text style={styles.collectionText}>Collections</Text> for you
+            Explore the best
+            <Text style={{ color: "rgb(43 65 214)" }}> Planets</Text>
+            {" "}
+            in the universe
+       
+            
+            
+          
           </Text>
         </View>
 
@@ -108,8 +83,6 @@ const Home = ({ navigation }) => {
                   <Ionicons name="heart-outline" color="white" size={24} />
                 </TouchableOpacity>
                 <Text style={styles.planetName}>{planet.name}</Text>
-                
-
               </View>
             </TouchableOpacity>
           ))}
@@ -141,7 +114,7 @@ const Home = ({ navigation }) => {
             ))}
           </ScrollView>
         </View>
-        <NasaAPI/>
+        <NasaAPI />
       </ScrollView>
     </SafeAreaView>
   );
@@ -188,7 +161,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     color: "rgb(43 65 214)",
   },
@@ -201,7 +174,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   categoryButton: {
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 20,
     marginRight: 8,
