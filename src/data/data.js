@@ -1,34 +1,26 @@
 export const categories = [
   {
     id: 1,
-    name: "Terrestrial Planets",
-    description: "Planets with solid, rocky surfaces.",
-  },
-  {
-    id: 2,
-    name: "Gas Giants",
-    description: "Large planets primarily composed of gases.",
-  },
-  {
-    id: 3,
-    name: "Ice Giants",
-    description: "Planets composed mostly of ice and gas.",
-  },
-  {
-    id: 4,
     name: "Dwarf Planets",
     description: "Small celestial bodies that orbit the Sun.",
   },
   {
-    id: 5,
-    name: "Exoplanets",
-    description: "Planets that exist outside our solar system.",
+    id: 2,
+    name: "Terrestrial Planets",
+    description: "Planets with solid, rocky surfaces.",
   },
   {
-    id: 6,
-    name: "Ocean Worlds",
-    description: "Planets or moons with significant bodies of water.",
+    id: 3,
+    name: "Gas Giants",
+    description: "Large planets primarily composed of gases.",
   },
+  {
+    id: 4,
+    name: "Ice Giants",
+    description: "Planets composed mostly of ice and gas.",
+  },
+
+
 ];
 
 

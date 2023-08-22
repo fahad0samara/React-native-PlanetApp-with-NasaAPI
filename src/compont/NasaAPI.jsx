@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -9,12 +8,17 @@ import {
   TouchableOpacity,
   Linking,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 
 const NasaAPI = () => {
   const [apodData, setApodData] = useState(null);
   const [roverPhotos, setRoverPhotos] = useState([]);
   const [neoData, setNeoData] = useState([]);
+
+  const [loadingApod, setLoadingApod] = useState(true);
+  const [loadingRoverPhotos, setLoadingRoverPhotos] = useState(true);
+  const [loadingNeoData, setLoadingNeoData] = useState(true);
 
   useEffect(() => {
     fetchAstronomyPictureOfTheDay();
@@ -31,20 +35,24 @@ const NasaAPI = () => {
       setApodData(data);
     } catch (error) {
       console.error("Error fetching APOD:", error);
+    } finally {
+      setLoadingApod(false);
     }
   };
 
-const fetchMarsRoverPhotos = async () => {
-  try {
-    const response = await fetch(
-      "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key=j7N46kr9Z3KIEda6NgyDqauAyYnf6zpCf6ySWaXC"
-    );
-    const data = await response.json();
-    setRoverPhotos(data.latest_photos);
-  } catch (error) {
-    console.error("Error fetching Mars Rover photos:", error);
-  }
-};
+  const fetchMarsRoverPhotos = async () => {
+    try {
+      const response = await fetch(
+        "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key=j7N46kr9Z3KIEda6NgyDqauAyYnf6zpCf6ySWaXC"
+      );
+      const data = await response.json();
+      setRoverPhotos(data.latest_photos);
+    } catch (error) {
+      console.error("Error fetching Mars Rover photos:", error);
+    } finally {
+      setLoadingRoverPhotos(false);
+    }
+  };
 
   const fetchNearEarthObjects = async () => {
     try {
@@ -55,6 +63,8 @@ const fetchMarsRoverPhotos = async () => {
       setNeoData(data.near_earth_objects);
     } catch (error) {
       console.error("Error fetching NEOs:", error);
+    } finally {
+      setLoadingNeoData(false);
     }
   };
 
@@ -95,7 +105,9 @@ const fetchMarsRoverPhotos = async () => {
     <ScrollView style={styles.container}>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Astronomy Picture of the Day</Text>
-        {apodData && (
+        {loadingApod ? (
+          <ActivityIndicator style={styles.loadingIndicator} size="large" color="#007AFF" />
+        ) : apodData ? (
           <>
             <Image source={{ uri: apodData.url }} style={styles.picture} />
             <Text style={styles.title}>{apodData.title}</Text>
@@ -104,35 +116,46 @@ const fetchMarsRoverPhotos = async () => {
               <Text style={styles.nasaLink}>View on NASA's Website</Text>
             </TouchableOpacity>
           </>
+        ) : (
+          <Text style={styles.errorText}>Error loading data.</Text>
         )}
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Latest Mars Rover Photos</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <FlatList
-            data={roverPhotos}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderRoverPhotoItem}
-            contentContainerStyle={styles.latestNewsContainer}
-          />
-        </ScrollView>
+        {loadingRoverPhotos ? (
+          <ActivityIndicator style={styles.loadingIndicator} size="large" color="#007AFF" />
+        ) : (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <FlatList
+              data={roverPhotos}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={renderRoverPhotoItem}
+              contentContainerStyle={styles.latestNewsContainer}
+            />
+          </ScrollView>
+        )}
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Near-Earth Objects (NEOs)</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <FlatList
-            data={neoData}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderNeoItem}
-            contentContainerStyle={styles.latestNewsContainer}
-          />
-        </ScrollView>
+        {loadingNeoData ? (
+          <ActivityIndicator style={styles.loadingIndicator} size="large" color="#007AFF" />
+        ) : (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <FlatList
+              data={neoData}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={renderNeoItem}
+              contentContainerStyle={styles.latestNewsContainer}
+            />
+          </ScrollView>
+        )}
       </View>
     </ScrollView>
-  );
+    );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -197,6 +220,14 @@ const styles = StyleSheet.create({
   latestNewsContainer: {
     flexDirection: "row",
     paddingVertical: 10,
+  },
+  loadingIndicator: {
+    marginTop: 20,
+  },
+  errorText: {
+    fontSize: 16,
+    color: "red",
+    marginTop: 10,
   },
 });
 

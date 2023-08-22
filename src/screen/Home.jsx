@@ -25,7 +25,7 @@ const Home = ({ navigation }) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>
             Explore the best
-            <Text style={{ color: "rgb(43 65 214)" }}> Planets</Text>
+            <Text style={{ color: "#007AFF" }}> Planets</Text>
             {" "}
             in the universe
        
@@ -161,9 +161,9 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "bold",
-    color: "rgb(43 65 214)",
+    color: "#007AFF",
   },
   collectionText: {
     color: "#333",
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   categoryButton: {
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
     marginRight: 8,
@@ -182,10 +182,10 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
   },
   activeCategoryButton: {
-    backgroundColor: "rgb(43 65 214)",
+    backgroundColor: "#007AFF",
   },
   categoryButtonText: {
-    color: "rgb(43 65 214)",
+    color: "#007AFF",
   },
   activeCategoryText: {
     color: "#FFF",
